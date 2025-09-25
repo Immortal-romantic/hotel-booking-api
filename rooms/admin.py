@@ -1,32 +1,28 @@
 from django.contrib import admin
-from .models import Room, Booking
-
+from .models import Room
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    """Админ-панель для номеров"""
-    list_display = ('id', 'description', 'price_per_night', 'created_at', 'bookings_count')
-    list_filter = ('created_at', 'price_per_night')
-    search_fields = ('description',)
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at',)
-    
+    """Админ-панель для номеров (устойчиво к названию поля цены)"""
+    list_display = ("id", "description", "price_display", "created_at", "bookings_count")
+    # list_filter требует поля модели (или кастомный фильтр). Мы оставим created_at,
+    # а по цене можно фильтровать через кастомный SimpleListFilter — но пока уберём price из list_filter
+    list_filter = ("created_at",)
+    search_fields = ("description",)
+    ordering = ("-created_at",)
+    readonly_fields = ("created_at",)
+
     def bookings_count(self, obj):
-        """Количество бронирований номера"""
         return obj.bookings.count()
-    bookings_count.short_description = 'Количество бронирований'
+    bookings_count.short_description = "Количество бронирований"
 
+    def price_display(self, obj):
+        # поддерживаем оба возможных названия поля
+        if hasattr(obj, "price"):
+            return obj.price
+        if hasattr(obj, "price_per_night"):
+            return getattr(obj, "price_per_night")
+        return None
+    price_display.short_description = "Цена за ночь"
+    price_display.admin_order_field = "price"  # если поля price нет, сортировка по полю не сработает — но не упадёт
 
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    """Админ-панель для бронирований"""
-    list_display = ('id', 'room', 'date_start', 'date_end', 'created_at', 'duration_days')
-    list_filter = ('date_start', 'date_end', 'created_at', 'room')
-    search_fields = ('room__description',)
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at',)
-    
-    def duration_days(self, obj):
-        """Продолжительность бронирования в днях"""
-        return (obj.date_end - obj.date_start).days
-    duration_days.short_description = 'Дней'
