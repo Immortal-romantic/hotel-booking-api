@@ -7,15 +7,12 @@ from rooms.models import Room
 from datetime import datetime
 
 def error_response(message, status=400):
-    """Возвращает JSON ответ с ошибкой"""
     return JsonResponse({"error": message}, status=status)
 
 def success_response(data, status=200):
-    """Возвращает успешный JSON ответ"""
     return JsonResponse(data, status=status)
 
 def parse_date(date_string):
-    """Парсинг даты из строки в формате YYYY-MM-DD"""
     try:
         return datetime.strptime(date_string, '%Y-%m-%d').date()
     except ValueError:
@@ -42,7 +39,6 @@ def create_booking(request):
         date_start = request.POST.get('date_start')
         date_end = request.POST.get('date_end')
         
-        # Валидация обязательных полей
         if not room_id:
             return error_response("Поле 'room_id' обязательно")
         if not date_start:
@@ -50,26 +46,23 @@ def create_booking(request):
         if not date_end:
             return error_response("Поле 'date_end' обязательно")
         
-        # Валидация room_id
         try:
             room_id = int(room_id)
         except ValueError:
             return error_response("Неверный формат room_id")
         
-        # Проверка существования номера
         try:
             room = Room.objects.get(id=room_id)
         except Room.DoesNotExist:
             return error_response("Номер не найден", status=404)
         
-        # Парсинг и валидация дат
         try:
             date_start_parsed = parse_date(date_start)
             date_end_parsed = parse_date(date_end)
         except ValueError as e:
             return error_response(str(e))
         
-        # Создание объекта бронирования
+
         booking = Booking(
             room=room,
             date_start=date_start_parsed,
@@ -77,20 +70,16 @@ def create_booking(request):
         )
         
         try:
-            # Проверка базовых правил валидации
             booking.clean()
             
-            # Проверка доступности номера (дополнительное условие из ТЗ)
             if not booking.check_availability():
                 return error_response(
                     f"Номер уже забронирован на период с {date_start} по {date_end}"
                 )
             
-            # Сохранение в базу данных
             booking.save()
             
         except ValidationError as e:
-            # Обработка ошибок валидации
             error_messages = e.messages if hasattr(e, 'messages') else [str(e)]
             return error_response('; '.join(error_messages))
         
@@ -126,7 +115,6 @@ def delete_booking(request):
         except ValueError:
             return error_response("Неверный формат booking_id")
         
-        # Поиск и удаление бронирования
         try:
             booking = Booking.objects.get(id=booking_id)
         except Booking.DoesNotExist:
@@ -164,16 +152,13 @@ def list_bookings(request):
         except ValueError:
             return error_response("Неверный формат room_id")
         
-        # Проверка существования номера
         try:
             room = Room.objects.get(id=room_id)
         except Room.DoesNotExist:
             return error_response("Номер не найден", status=404)
         
-        # Получение бронирований номера, отсортированных по дате начала
         bookings = Booking.objects.filter(room=room).order_by('date_start')
         
-        # Формирование данных для ответа
         bookings_data = []
         for booking in bookings:
             bookings_data.append({

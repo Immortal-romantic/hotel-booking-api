@@ -20,7 +20,6 @@ from django.urls import path, include
 from django.http import JsonResponse
 
 def api_info(request):
-    """Информация о доступных API эндпоинтах"""
     return JsonResponse({
         "message": "🏨 Hotel Booking API",
         "version": "1.0",
@@ -41,9 +40,9 @@ def api_info(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', api_info, name='api_info'),  # Главная страница с информацией об API
-    path('', include('rooms.urls')),      # Подключаем URLs из приложения rooms
-    path('', include('bookings.urls')),   # Подключаем URLs из приложения bookings
+    path('', api_info, name='api_info'),
+    path('', include('rooms.urls')),
+    path('', include('bookings.urls')),
 ]
 
 

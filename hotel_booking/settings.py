@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "bookings.apps.BookingsConfig",
     "rooms.apps.RoomsConfig",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ DATABASES = {
     }
 }
 
-# Для использования PostgreSQL раскомментируйте и настройте:
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

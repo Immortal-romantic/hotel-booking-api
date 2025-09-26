@@ -3,7 +3,6 @@ from .models import Booking
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    """Админ-панель для бронирований"""
     list_display = ('id', 'room', 'date_start', 'date_end', 'created_at', 'duration_days')
     list_filter = ('date_start', 'date_end', 'created_at', 'room')
     search_fields = ('room__description',)
