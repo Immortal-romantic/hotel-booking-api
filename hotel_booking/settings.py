@@ -69,27 +69,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hotel_booking.wsgi.application'
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': os.environ.get('DB_NAME', 'hotel_booking'),
-#         'USER': os.environ.get('DB_USER', 'postgres'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+#         'USER': os.environ.get('DB_USER', 'hotel_user'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', 'hotel_password'),
 #         'HOST': os.environ.get('DB_HOST', 'localhost'),
-#         'PORT': os.environ.get('DB_PORT', '5432'),
+#         'PORT': os.environ.get('DB_PORT', '5433'),
 #     }
 # }
 
-# Password validation
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'hotel_booking'),
+        'USER': os.environ.get('DB_USER', 'hotel_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'hotel_password'),
+        'HOST': os.environ.get('DB_HOST', 'db'), 
+        'PORT': os.environ.get('DB_PORT', '5432'),  
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
