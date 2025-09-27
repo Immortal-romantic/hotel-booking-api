@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     "django_extensions",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,16 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hotel_booking.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('DB_NAME', 'hotel_booking'),
-#         'USER': os.environ.get('DB_USER', 'hotel_user'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', 'hotel_password'),
-#         'HOST': os.environ.get('DB_HOST', 'localhost'),
-#         'PORT': os.environ.get('DB_PORT', '5433'),
-#     }
-# }
 
 DATABASES = {
     'default': {

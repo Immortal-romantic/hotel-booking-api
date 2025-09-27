@@ -18,6 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
+from rest_framework.routers import DefaultRouter
+from rooms.api import RoomViewSet
+from bookings.api import BookingViewSet
+
+router = DefaultRouter()
+router.register(r'rooms', RoomViewSet, basename='room')
+router.register(r'bookings', BookingViewSet, basename='booking')
 
 def api_info(request):
     return JsonResponse({
@@ -43,6 +50,7 @@ urlpatterns = [
     path('', api_info, name='api_info'),
     path('', include('rooms.urls')),
     path('', include('bookings.urls')),
+    path('api/', include(router.urls)),
 ]
 
 
