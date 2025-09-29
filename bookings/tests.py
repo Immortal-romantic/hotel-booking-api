@@ -1,7 +1,10 @@
-from django.test import TestCase
-from rooms.models import Room
-from bookings.models import Booking
 from datetime import date, timedelta
+
+from django.test import TestCase
+
+from bookings.models import Booking
+from rooms.models import Room
+
 
 class BookingTests(TestCase):
     def setUp(self):
@@ -16,12 +19,10 @@ class BookingTests(TestCase):
 
     def test_end_is_exclusive_allowed(self):
         start1 = date.today() + timedelta(days=5)
-        end1 = start1 + timedelta(days=2)   # 5..7
+        end1 = start1 + timedelta(days=2)  # 5..7
         Booking.objects.create(room=self.room, date_start=start1, date_end=end1)
 
         start2 = end1
         end2 = start2 + timedelta(days=1)
         b2 = Booking.objects.create(room=self.room, date_start=start2, date_end=end2)
         self.assertIsNotNone(b2.id)
-
-

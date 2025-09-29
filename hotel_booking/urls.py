@@ -16,41 +16,44 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
 from django.http import JsonResponse
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from rooms.api import RoomViewSet
+
 from bookings.api import BookingViewSet
+from rooms.api import RoomViewSet
 
 router = DefaultRouter()
-router.register(r'rooms', RoomViewSet, basename='room')
-router.register(r'bookings', BookingViewSet, basename='booking')
+router.register(r"rooms", RoomViewSet, basename="room")
+router.register(r"bookings", BookingViewSet, basename="booking")
+
 
 def api_info(request):
-    return JsonResponse({
-        "message": "🏨 Hotel Booking API",
-        "version": "1.0",
-        "endpoints": {
-            "rooms": {
-                "create": "POST /rooms/create",
-                "list": "GET /rooms/list", 
-                "delete": "POST /rooms/delete"
+    return JsonResponse(
+        {
+            "message": "🏨 Hotel Booking API",
+            "version": "1.0",
+            "endpoints": {
+                "rooms": {
+                    "create": "POST /rooms/create",
+                    "list": "GET /rooms/list",
+                    "delete": "POST /rooms/delete",
+                },
+                "bookings": {
+                    "create": "POST /bookings/create",
+                    "list": "GET /bookings/list",
+                    "delete": "POST /bookings/delete",
+                },
             },
-            "bookings": {
-                "create": "POST /bookings/create",
-                "list": "GET /bookings/list",
-                "delete": "POST /bookings/delete"
-            }
-        },
-        "example": "curl -X POST -d 'description=Люкс' -d 'price_per_night=5000' http://localhost:9000/rooms/create"
-    })
+            "example": "curl -X POST -d 'description=Люкс' -d 'price_per_night=5000' http://localhost:9000/rooms/create",
+        }
+    )
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', api_info, name='api_info'),
-    path('', include('rooms.urls')),
-    path('', include('bookings.urls')),
-    path('api/', include(router.urls)),
+    path("admin/", admin.site.urls),
+    path("", api_info, name="api_info"),
+    path("", include("rooms.urls")),
+    path("", include("bookings.urls")),
+    path("api/", include(router.urls)),
 ]
-
-

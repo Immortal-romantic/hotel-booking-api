@@ -1,5 +1,7 @@
 from django.test import TestCase
-from rooms.models import Room 
+
+from rooms.models import Room
+
 
 class RoomTests(TestCase):
     def test_create_room(self):
