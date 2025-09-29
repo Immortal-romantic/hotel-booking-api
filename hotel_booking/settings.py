@@ -83,8 +83,8 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', 'hotel_booking'),
         'USER': os.environ.get('DB_USER', 'hotel_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'hotel_password'),
-        'HOST': os.environ.get('DB_HOST', 'db'), 
-        'PORT': os.environ.get('DB_PORT', '5432'),  
+        'HOST': os.environ.get('DB_HOST', 'db'),  # ← В Docker Compose это имя сервиса
+        'PORT': os.environ.get('DB_PORT', '5432'),  # ← Внутри контейнера это 5432
     }
 }
 
