@@ -1,30 +1,26 @@
-[project]
+[tool.poetry]
 name = "hotel-booking-service"
 version = "0.1.0"
 description = "Hotel Booking Service"
-authors = [
-    {name = "Kirill"}
-]
+authors = ["Kirill"]
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "django (>=5.2.6,<6.0.0)",
-    "djangorestframework (>=3.16.1,<4.0.0)",
-    "psycopg2-binary (>=2.9.10,<3.0.0)",
-    "django-extensions (>=4.1,<5.0)",
-    "gunicorn (>=23.0.0,<24.0.0)",
-    "dj-database-url (>=3.0.1,<4.0.0)"
-]
+package-mode = false  # ← Вот сюда!
 
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.2.6"
+djangorestframework = "^3.16.1"
+psycopg2-binary = "^2.9.10"
+django-extensions = "^4.1"
+gunicorn = "^23.0.0"
+dj-database-url = "^3.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+pytest-django = "^4.11.1"
+ruff = "^0.13.2"
+pre-commit = "^4.3.0"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[dependency-groups]
-dev = [
-    "pytest (>=8.4.2,<9.0.0)",
-    "pytest-django (>=4.11.1,<5.0.0)",
-    "ruff (>=0.13.2,<0.14.0)",
-    "pre-commit (>=4.3.0,<5.0.0)"
-]
