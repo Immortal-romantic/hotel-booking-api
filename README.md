@@ -3,6 +3,18 @@
 Сервис для управления номерами отелей и бронированиями.  
 Позволяет создавать, просматривать и удалять номера отелей, а также оформлять и управлять бронированиями.
 
+# Сткруктура проекта
+
+project/
+├── src/
+│ └── hotel_booking/ # основной Django-проект
+├── tests/ # тесты
+├── manage.py
+├── pyproject.toml
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+
 # Стек технологий
 
 Django, DRF, PostgreSQL, poetry, docker, docker compose, pytest
