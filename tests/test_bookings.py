@@ -19,7 +19,7 @@ class BookingTests(TestCase):
 
     def test_end_is_exclusive_allowed(self):
         start1 = date.today() + timedelta(days=5)
-        end1 = start1 + timedelta(days=2)  # 5..7
+        end1 = start1 + timedelta(days=2)
         Booking.objects.create(room=self.room, date_start=start1, date_end=end1)
 
         start2 = end1

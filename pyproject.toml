@@ -16,6 +16,11 @@ gunicorn = "^23.0.0"
 dj-database-url = "^3.0.1"
 pydantic-settings = "^2.11.0"
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "src.hotel_booking.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "-v"
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.2"
 pytest-django = "^4.11.1"
