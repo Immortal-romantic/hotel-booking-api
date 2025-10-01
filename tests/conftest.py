@@ -1,4 +1,17 @@
-import sys
-from pathlib import Path
+import os
 
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+import django
+from django.conf import settings
+
+
+def pytest_configure():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.hotel_booking.settings')
+
+    settings.DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+
+    django.setup()

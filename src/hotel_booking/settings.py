@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import sys
 import os
 from pathlib import Path
 
@@ -76,17 +76,39 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "hotel_booking.wsgi.application"
 
+TESTING = 'test' in sys.argv or 'pytest' in sys.argv or 'pytest' in sys.modules
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "hotel_booking"),
-        "USER": os.environ.get("DB_USER", "hotel_user"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "hotel_password"),
-        "HOST": os.environ.get("DB_HOST", "db"),  # ← В Docker Compose это имя сервиса
-        "PORT": os.environ.get("DB_PORT", "5432"),  # ← Внутри контейнера это 5432
+if TESTING:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("DB_NAME", "hotel_booking"),
+            "USER": os.environ.get("DB_USER", "hotel_user"),
+            "PASSWORD": os.environ.get("DB_PASSWORD", "hotel_password"),
+            "HOST": os.environ.get("DB_HOST", "db"),
+            "PORT": os.environ.get("DB_PORT", "5432"),
+        }
+    }
+
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ.get("DB_NAME", "hotel_booking"),
+#         "USER": os.environ.get("DB_USER", "hotel_user"),
+#         "PASSWORD": os.environ.get("DB_PASSWORD", "hotel_password"),
+#         "HOST": os.environ.get("DB_HOST", "db"),
+#         "PORT": os.environ.get("DB_PORT", "5432"),
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
