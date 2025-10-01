@@ -108,7 +108,6 @@ def delete_booking(request):
     except Exception as e:
         return error_response(f"Внутренняя ошибка: {str(e)}", status=500)
 
-
 @require_http_methods(["GET"])
 def list_bookings(request):
     try:
